@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="62d5253d-5945-41d5-9b09-69db901913bd" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/procurement-service/src/main/java/ProcureAI/demande/Controller/PurchaseRequestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/procurement-service/src/main/java/ProcureAI/demande/entity/PurchaseRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/procurement-service/src/main/java/ProcureAI/demande/entity/PurchaseRequestLine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/procurement-service/src/main/java/ProcureAI/demande/service/PurchaseRequestService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/procurement-service/src/main/java/ProcureAI/demande/service/PurchaseRequestServiceImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0000000556131001" />
+      <entry key="MS500" value="1.0358036034596898" />
+      <entry key="S2" value="1.730288899726172" />
+      <entry key="S5" value="3.095886677846085" />
+      <entry key="S10" value="4.364461350364511" />
+      <entry key="S30" value="5.934404947239548" />
+      <entry key="S60" value="6.97878585626468" />
+      <entry key="M2" value="8.96107720965942" />
+      <entry key="M5" value="12.69820313946398" />
+      <entry key="M10" value="18.13540069855499" />
+      <entry key="M15" value="24.39624353404451" />
+      <entry key="M30" value="40.43233363369114" />
+      <entry key="H1" value="57.72881035047102" />
+      <entry key="H2" value="70.98394389761141" />
+      <entry key="H4" value="79.2893231341124" />
+      <entry key="D1" value="87.2730585310529" />
+      <entry key="W1" value="88.75048082626223" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="1.0192540677309202E-271" />
+      <entry key="S10" value="3.1925758686849124E-136" />
+      <entry key="S30" value="6.834635736829425E-46" />
+      <entry key="S60" value="2.6214641831336097E-23" />
+      <entry key="M2" value="5.491208998658981E-12" />
+      <entry key="M5" value="4.672220895257791E-5" />
+      <entry key="M10" value="0.011223538843435316" />
+      <entry key="M15" value="0.07145594555990094" />
+      <entry key="M30" value="0.46036422301060664" />
+      <entry key="H1" value="1.1735683230389204" />
+      <entry key="H2" value="1.8757132568589572" />
+      <entry key="H4" value="2.371958443404551" />
+      <entry key="D1" value="2.8847873939719038" />
+      <entry key="W1" value="2.9832626850030204" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.9201877021553098" />
+      <entry key="MS500" value="1.0187299735921689" />
+      <entry key="S2" value="1.6891717031242546" />
+      <entry key="S5" value="3.0153734380653763" />
+      <entry key="S10" value="4.2935423158363" />
+      <entry key="S30" value="5.899037671343009" />
+      <entry key="S60" value="6.957207268370177" />
+      <entry key="M2" value="8.946737559791057" />
+      <entry key="M5" value="12.689641694575746" />
+      <entry key="M10" value="18.13910839866299" />
+      <entry key="M15" value="24.45980411768894" />
+      <entry key="M30" value="40.88489224874726" />
+      <entry key="H1" value="58.89636483322194" />
+      <entry key="H2" value="72.8558380249913" />
+      <entry key="H4" value="81.65911719106509" />
+      <entry key="D1" value="90.15744433994004" />
+      <entry key="W1" value="91.73368506159866" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3K1U6zqEvBOwwicoItkJI2AZEd7" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.AuthApplication.executor": "Run",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.jshint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.jshint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "C:/Users/DELL/IdeaProjects/ProcureAI/procurement-service/untitled1/src/main/java/org/example/Main.java",
+    "to.speed.mode.migration.done": "true"
+  }
+}]]></component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+    <option name="configurationStatuses">
+      <map>
+        <entry key="SpringBootApplicationConfigurationType">
+          <value>
+            <map>
+              <entry key="AuthApplication" value="FAILED" />
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.AuthApplication">
+    <configuration name="AuthApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="auth-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="procureai.auth.AuthApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="procureai.auth.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProcurementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="procurement-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="procureai.ProcurementApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.AuthApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10968.63" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10968.63" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="62d5253d-5945-41d5-9b09-69db901913bd" name="Changes" comment="" />
+      <created>1790724401068</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1790724401068</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/auth-service/untitled/src/main/java/org/example/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

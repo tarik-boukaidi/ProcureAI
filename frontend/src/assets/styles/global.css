@@ -1,0 +1,226 @@
+:root {
+  --paper: #f5f3ee;
+  --paper-2: #ece8df;
+  --white: #ffffff;
+  --ink: #16181d;
+  --ink-soft: #4a4f57;
+  --ink-mute: #8a8f98;
+  --line: #e3dfd6;
+  --forest: #0e3b2e;
+  --forest-2: #164c3c;
+  --saffron: #f0612e;
+  --saffron-dark: #d84f1f;
+  --green-soft: #dcefe2;
+  --green-text: #1d6b45;
+  --amber-soft: #fcebd5;
+  --amber-text: #9a5a12;
+  --red-soft: #fbe1dc;
+  --red-text: #b3351f;
+  --blue-soft: #dfe8f6;
+  --blue-text: #2c5395;
+
+  --font-sans: "Geist", system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum";
+}
+
+/* ---------- Boutons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-dark {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.btn-dark:hover {
+  background: #2a2d34;
+}
+
+.btn-accent {
+  background: var(--saffron);
+  color: var(--white);
+}
+
+.btn-accent:hover {
+  background: var(--saffron-dark);
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.btn-outline:hover {
+  border-color: var(--ink-mute);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-sm {
+  height: 32px;
+  padding: 0 12px;
+  gap: 6px;
+  font-size: 13px;
+}
+
+/* ---------- Champs de formulaire ---------- */
+.field {
+  display: block;
+  margin-bottom: 18px;
+}
+
+.field > span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.field textarea {
+  height: auto;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--ink-mute);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(240, 97, 46, 0.18);
+}
+
+/* ---------- Statuts (Payée, Validée...) ---------- */
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.tag-amber { background: var(--amber-soft); color: var(--amber-text); }
+.tag-green { background: var(--green-soft); color: var(--green-text); }
+.tag-red   { background: var(--red-soft);   color: var(--red-text); }
+.tag-ink   { background: #efede8;           color: var(--ink-soft); }
+.tag-blue  { background: var(--blue-soft);  color: var(--blue-text); }
+
+/* ---------- Titres de section ---------- */
+.section {
+  padding: 120px 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--saffron);
+}
+
+.title {
+  margin-top: 16px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(36px, 4.6vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.title em {
+  font-style: italic;
+  color: var(--saffron);
+}
+
+.lead {
+  margin-top: 18px;
+  max-width: 560px;
+  font-size: 18px;
+  color: var(--ink-soft);
+}

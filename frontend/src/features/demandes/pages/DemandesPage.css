@@ -1,0 +1,22 @@
+.demande-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.demande-item strong {
+  font-weight: 500;
+}
+
+.demande-item span {
+  font-size: 13px;
+  color: var(--ink-mute);
+}
+
+.demande-reason {
+  max-width: 320px;
+}
+
+.demande-form-row {
+  grid-template-columns: 1fr 120px;
+}

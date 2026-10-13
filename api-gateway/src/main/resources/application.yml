@@ -1,0 +1,73 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      # lb://<nom-du-service> : l'adresse est trouvee dans Eureka
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+        - id: user-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/users/**
+        - id: supplier-service
+          uri: lb://supplier-service
+          predicates:
+            - Path=/api/suppliers/**
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/orders/**
+        - id: procurement-service
+          uri: lb://procurement-service
+          predicates:
+            - Path=/api/demandes/**
+        - id: reception-service
+          uri: lb://reception-service
+          predicates:
+            - Path=/api/receptions/**
+        - id: invoice-service
+          uri: lb://invoice-service
+          predicates:
+            - Path=/api/invoices/**
+        - id: matching-service
+          uri: lb://matching-service
+          predicates:
+            - Path=/api/matching/**
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/api/payments/**
+        # Pas de POST depuis l'exterieur : seuls les services internes creent des notifications
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+            - Method=GET,PUT
+        # Lecture seule depuis l'exterieur : seul invoice-service cree des ecritures
+        - id: accounting-service
+          uri: lb://accounting-service
+          predicates:
+            - Path=/api/accounting/**
+            - Method=GET
+        - id: ai-service
+          uri: lb://ai-service
+          predicates:
+            - Path=/api/ai/**
+
+# En local : localhost:8761 / Dans Docker : EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: 7fK9mQ2xV8pL4zN6sR1tY5wC3hJ8aD0eG6uP2kF9vX4mB7qZ

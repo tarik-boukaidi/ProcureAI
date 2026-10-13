@@ -1,0 +1,31 @@
+.discrepancies {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.discrepancies li {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--red-text);
+  border-radius: 8px;
+}
+
+.discrepancies svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--red-text);
+}
+
+.discrepancies strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.discrepancies p {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}

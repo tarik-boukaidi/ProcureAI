@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+python-multipart
+py-eureka-client
+paddlepaddle>=3.0,<4
+paddleocr>=3.0,<4
+pymupdf
+google-genai

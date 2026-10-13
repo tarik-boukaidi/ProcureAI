@@ -1,0 +1,99 @@
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(22, 24, 29, 0.4);
+  animation: dialog-fade 0.15s ease-out;
+}
+
+.dialog {
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+  border-radius: 14px;
+  background: var(--white);
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.35);
+  animation: dialog-in 0.18s ease-out;
+}
+
+.dialog-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  background: var(--red-soft);
+  color: var(--red-text);
+}
+
+.dialog-icon-green {
+  background: var(--green-soft);
+  color: var(--green-text);
+}
+
+.dialog-fields {
+  margin-top: 20px;
+}
+
+.dialog-fields .field {
+  margin-bottom: 0;
+}
+
+.dialog-title {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.dialog-message {
+  margin-top: 6px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.dialog-error {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--red-soft);
+  color: var(--red-text);
+  font-size: 14px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.dialog-actions .btn {
+  height: 40px;
+  font-size: 14px;
+}
+
+.btn-danger {
+  background: var(--red-text);
+  color: var(--white);
+}
+
+.btn-danger:hover {
+  background: #962b18;
+}
+
+@keyframes dialog-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-in {
+  from {
+    transform: translateY(8px) scale(0.98);
+    opacity: 0;
+  }
+}

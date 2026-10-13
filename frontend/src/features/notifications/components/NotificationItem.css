@@ -1,0 +1,61 @@
+.notification-list {
+  list-style: none;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 12px;
+  border: none;
+  border-bottom: 1px solid #f1eee8;
+  background: transparent;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.notification:hover {
+  background: #fbfaf7;
+}
+
+.notification.unread {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* Point orange devant les notifications non lues */
+.notification.unread .notification-message::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--saffron);
+  vertical-align: middle;
+}
+
+.notification-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+}
+
+.notification-text {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+}
+
+.notification-date {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-mute);
+}
