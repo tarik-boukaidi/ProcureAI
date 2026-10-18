@@ -153,4 +153,4 @@ ProcureAI/
 
 ## Licence
 
-Projet académique / personnel.
+Projet  Personnel
