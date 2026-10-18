@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="62d5253d-5945-41d5-9b09-69db901913bd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/procurement-service/src/main/java/ProcureAI/demande/Controller/PurchaseRequestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/procurement-service/src/main/java/ProcureAI/demande/entity/PurchaseRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/procurement-service/src/main/java/ProcureAI/demande/entity/PurchaseRequestLine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/procurement-service/src/main/java/ProcureAI/demande/service/PurchaseRequestService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/procurement-service/src/main/java/ProcureAI/demande/service/PurchaseRequestServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +108,7 @@
     "Spring Boot.AuthApplication.executor": "Run",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
