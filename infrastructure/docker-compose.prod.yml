@@ -1,0 +1,250 @@
+# Production Compose file.
+# Start from infrastructure with:
+# docker compose --env-file .env -f docker-compose.prod.yml up -d
+
+x-eureka-url: &eureka-url http://discovery-service:8761/eureka
+x-jwt-secret: &jwt-secret "${JWT_SECRET:?Set JWT_SECRET in infrastructure/.env}"
+x-rabbitmq-user: &rabbitmq-user "${RABBITMQ_USER:?Set RABBITMQ_USER in infrastructure/.env}"
+x-rabbitmq-password: &rabbitmq-password "${RABBITMQ_PASSWORD:?Set RABBITMQ_PASSWORD in infrastructure/.env}"
+x-postgres-password: &postgres-password "${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in infrastructure/.env}"
+
+services:
+  postgres:
+    image: postgres:16
+    command: postgres -c max_connections=200
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: *postgres-password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: *rabbitmq-user
+      RABBITMQ_DEFAULT_PASS: *rabbitmq-password
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  discovery-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/discovery-service:build-7
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/127.0.0.1/8761'"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  auth-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/auth-service:build-7
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/auth_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: *postgres-password
+      JWT_SECRET: *jwt-secret
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+
+  supplier-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/supplier-service:build-7
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/supplier_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: *postgres-password
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+
+  order-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/order-service:build-7
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/order_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: *postgres-password
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: *rabbitmq-user
+      SPRING_RABBITMQ_PASSWORD: *rabbitmq-password
+      MAIL_HOST: ${MAIL_HOST:-}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_FROM: ${MAIL_FROM:-}
+      FRONTEND_URL: "${FRONTEND_URL:?Set FRONTEND_URL in infrastructure/.env}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  procurement-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/procurement-service:build-7
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/procurement_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: *postgres-password
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: *rabbitmq-user
+      SPRING_RABBITMQ_PASSWORD: *rabbitmq-password
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  reception-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/reception-service:build-7
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/reception_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: *postgres-password
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+
+  invoice-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/invoice-service:build-7
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/invoice_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: *postgres-password
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: *rabbitmq-user
+      SPRING_RABBITMQ_PASSWORD: *rabbitmq-password
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  matching-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/matching-service:build-7
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/matching_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: *postgres-password
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+
+  payment-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/payment-service:build-7
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/payment_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: *postgres-password
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+
+  notification-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/notification-service:build-7
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/notification_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: *postgres-password
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: *rabbitmq-user
+      SPRING_RABBITMQ_PASSWORD: *rabbitmq-password
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  accounting-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/accounting-service:build-7
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/accounting_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: *postgres-password
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+
+  ai-service:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/ai-service:build-7
+    restart: unless-stopped
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+
+  api-gateway:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/api-gateway:build-7
+    restart: unless-stopped
+    environment:
+      JWT_SECRET: *jwt-secret
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: *eureka-url
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+
+  frontend:
+    image: 093747269849.dkr.ecr.us-east-1.amazonaws.com/procureai/frontend:build-10
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      api-gateway:
+        condition: service_started
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
