@@ -17,6 +17,9 @@ import PrivateRoute from "./router/PrivateRoute";
 
 // Pages Finance : le comptable travaille, l'admin consulte (comme dans le menu)
 const financeOnly = (page) => <PrivateRoute roles={["COMPTABLE", "ADMIN"]}>{page}</PrivateRoute>;
+const companyOnly = (page) => (
+  <PrivateRoute roles={["ADMIN", "MANAGER", "EMPLOYEE", "COMPTABLE", "MAGASINIER"]}>{page}</PrivateRoute>
+);
 
 export default function App() {
   return (
@@ -28,11 +31,11 @@ export default function App() {
         {/* Pages apres connexion : sidebar + topbar autour */}
         <Route element={<PrivateRoute><AppLayout /></PrivateRoute>}>
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/demandes" element={<DemandesPage />} />
+          <Route path="/demandes" element={companyOnly(<DemandesPage />)} />
           <Route path="/commandes" element={<OrdersPage />} />
-          <Route path="/receptions" element={<ReceptionsPage />} />
-          <Route path="/fournisseurs" element={<SuppliersPage />} />
-          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/receptions" element={companyOnly(<ReceptionsPage />)} />
+          <Route path="/fournisseurs" element={companyOnly(<SuppliersPage />)} />
+          <Route path="/notifications" element={companyOnly(<NotificationsPage />)} />
 
           <Route path="/factures" element={financeOnly(<InvoicesPage />)} />
           <Route path="/rapprochement" element={financeOnly(<MatchingPage />)} />

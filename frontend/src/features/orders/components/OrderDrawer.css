@@ -1,0 +1,14 @@
+.order-line {
+  display: grid;
+  grid-template-columns: 1fr 80px 110px 36px;
+  gap: 10px;
+  align-items: end;
+}
+
+.order-line .field {
+  margin-bottom: 12px;
+}
+
+.order-line-remove {
+  margin-bottom: 12px;
+}

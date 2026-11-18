@@ -19,13 +19,14 @@ public class JwtService {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(String email, String role, Long id) {
+    public String generateToken(String email, String role, Long id, Long supplierId) {
 
         return Jwts.builder()
                 .setSubject(email)
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .claim("id", id)
+                .claim("supplierId", supplierId)
                 .setExpiration(
                         new Date(System.currentTimeMillis() + 86400000)
                 )

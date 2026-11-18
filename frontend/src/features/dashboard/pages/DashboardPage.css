@@ -44,11 +44,11 @@
 }
 
 .gauge-track {
-  stroke: var(--paper-2);
+  stroke: #dff1e4;
 }
 
 .gauge-value {
-  stroke: var(--forest);
+  stroke: #2e8055;
   stroke-linecap: round;
   transition: stroke-dashoffset 0.6s;
 }
@@ -86,7 +86,7 @@
   border-radius: 50%;
 }
 
-.dot-green { background: var(--forest); }
+.gauge-legend .dot-green { background: #2e8055; }
 .dot-red { background: var(--red-text); }
 
 /* ============ Responsive ============ */

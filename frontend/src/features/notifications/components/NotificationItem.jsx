@@ -1,4 +1,4 @@
-import { Bell, CircleCheck, CircleX, Inbox, Truck, TriangleAlert, Wallet } from "lucide-react";
+import { Bell, CircleCheck, CircleX, FileText, Inbox, Truck, TriangleAlert, Wallet } from "lucide-react";
 import { formatDateTime } from "../../../shared/utils/format";
 import "./NotificationItem.css";
 
@@ -7,6 +7,7 @@ const TYPES = {
   DEMANDE_CREATED: { icon: Inbox, tone: "amber", link: "/demandes" },
   DEMANDE_APPROVED: { icon: CircleCheck, tone: "green", link: "/demandes" },
   DEMANDE_REJECTED: { icon: CircleX, tone: "red", link: "/demandes" },
+  INVOICE_CREATED: { icon: FileText, tone: "amber", link: "/factures" },
   INVOICE_REJECTED: { icon: TriangleAlert, tone: "red", link: "/rapprochement" },
   INVOICE_PAID: { icon: Wallet, tone: "green", link: "/paiements" },
   ORDER_SENT: { icon: Truck, tone: "amber", link: "/receptions" },

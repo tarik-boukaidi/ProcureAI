@@ -1,4 +1,4 @@
-import { apiGet, apiPut } from "../../../api/client";
+import { apiGet, apiPost, apiPut } from "../../../api/client";
 import { getSupplierNames } from "../../suppliers/services/supplierService";
 
 // Commandes avec le nom du fournisseur (order-service ne renvoie que supplierId)
@@ -12,6 +12,20 @@ export async function loadOrders() {
 
 export function getOrders() {
   return apiGet("/api/orders");
+}
+
+export function getMyOrders() {
+  return apiGet("/api/orders/mine");
+}
+
+export function confirmOrder(id, expectedDeliveryDate) {
+  const query = expectedDeliveryDate ? `?expectedDeliveryDate=${expectedDeliveryDate}` : "";
+  return apiPut(`/api/orders/${id}/confirm${query}`);
+}
+
+// Cree un brouillon (DRAFT) a partir d'une demande deja approuvee.
+export function createOrder(order) {
+  return apiPost("/api/orders", order);
 }
 
 // Ex : DRAFT -> SENT. order-service refuse (409) un changement hors du cycle de vie.

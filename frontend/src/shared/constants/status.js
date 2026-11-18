@@ -32,6 +32,7 @@ export const USER_ROLE = {
   EMPLOYEE: { label: "Employé", tone: "green" },
   MAGASINIER: { label: "Magasinier", tone: "ink" },
   COMPTABLE: { label: "Comptable", tone: "blue" },
+  SUPPLIER: { label: "Fournisseur", tone: "green" },
 };
 
 // Comptes du plan comptable marocain utilises par accounting-service

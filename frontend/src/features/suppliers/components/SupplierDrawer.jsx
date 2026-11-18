@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TriangleAlert, X } from "lucide-react";
-import { createSupplier, updateSupplier } from "../services/supplierService";
+import { createUser, getUsers, updateUser } from "../../users/services/userService";
+import { createSupplier, deleteSupplier, updateSupplier } from "../services/supplierService";
 
-// Code HTTP renvoye par supplier-service -> message clair pour l'utilisateur
+// Code HTTP renvoye par supplier-service ou auth-service -> message clair
 function errorMessage(status) {
-  if (status === 409) return "Ce CIN est déjà utilisé par un autre fournisseur.";
-  if (status === 400) return "Vérifiez les champs : nom et CIN obligatoires, email valide, ICE de 15 chiffres.";
+  if (status === 409) return "Ce CIN ou cet email est déjà utilisé.";
+  if (status === 400) return "Vérifiez les champs : nom, CIN, email valide et mot de passe de 6 caractères minimum.";
   return "Enregistrement impossible. Réessayez dans un instant.";
 }
 
@@ -21,23 +22,57 @@ export default function SupplierDrawer({ supplier, onClose, onSaved }) {
     address: supplier.address ?? "",
     city: supplier.city ?? "",
     status: supplier.status ?? "ACTIVE",
+    password: "",
   });
+  const [account, setAccount] = useState(isNew ? null : undefined);
+  const passwordRequired = isNew || account === null;
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
+  useEffect(() => {
+    if (isNew) return;
+    getUsers()
+      .then((users) => setAccount(users.find((user) => user.role === "SUPPLIER" && Number(user.supplierId) === Number(supplier.id)) ?? null))
+      .catch(() => setAccount(null));
+  }, [isNew, supplier.id]);
+
   function update(field, value) {
     setForm({ ...form, [field]: value });
+  }
+
+  function accountPayload(supplierId) {
+    return {
+      name: form.name,
+      email: form.email.trim(),
+      password: form.password,
+      phone: form.phone,
+      address: [form.address, form.city].filter(Boolean).join(", "),
+      role: "SUPPLIER",
+      supplierId,
+    };
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
     setError("");
     setSaving(true);
+    const { password, ...fiche } = form;
     try {
       if (isNew) {
-        await createSupplier(form);
+        const created = await createSupplier(fiche);
+        try {
+          await createUser(accountPayload(created.id));
+        } catch (err) {
+          await deleteSupplier(created.id).catch(() => {});
+          throw err;
+        }
       } else {
-        await updateSupplier(supplier.id, form);
+        await updateSupplier(supplier.id, fiche);
+        if (account && form.email.trim()) {
+          await updateUser(account.id, accountPayload(supplier.id));
+        } else if (password) {
+          await createUser(accountPayload(supplier.id));
+        }
       }
       onSaved();
     } catch (err) {
@@ -99,8 +134,14 @@ export default function SupplierDrawer({ supplier, onClose, onSaved }) {
 
           <div className="form-row">
             <label className="field">
-              <span>Email</span>
-              <input type="email" value={form.email} onChange={(e) => update("email", e.target.value)} placeholder="contact@atlas.ma" />
+              <span>Email {isNew ? "*" : ""}</span>
+              <input
+                type="email"
+                value={form.email}
+                onChange={(e) => update("email", e.target.value)}
+                placeholder="contact@atlas.ma"
+                required={isNew || Boolean(form.password)}
+              />
             </label>
             <label className="field">
               <span>Téléphone</span>
@@ -117,11 +158,25 @@ export default function SupplierDrawer({ supplier, onClose, onSaved }) {
             <span>Ville</span>
             <input value={form.city} onChange={(e) => update("city", e.target.value)} placeholder="Casablanca" />
           </label>
+
+          <label className="field">
+            <span>{passwordRequired ? "Mot de passe de connexion *" : "Nouveau mot de passe"}</span>
+            <input
+              type="password"
+              value={form.password}
+              onChange={(e) => update("password", e.target.value)}
+              placeholder={passwordRequired ? "6 caractères minimum" : "Laisser vide pour ne pas le changer"}
+              minLength={6}
+              required={passwordRequired}
+              autoComplete="new-password"
+            />
+          </label>
+          <p className="drawer-hint">Le fournisseur se connecte avec cet email et ce mot de passe.</p>
         </div>
 
         <footer className="drawer-footer">
           <button type="button" className="btn btn-outline" onClick={onClose}>Annuler</button>
-          <button type="submit" className="btn btn-dark" disabled={saving}>
+          <button type="submit" className="btn btn-create" disabled={saving || account === undefined}>
             {saving ? "Enregistrement…" : isNew ? "Ajouter" : "Enregistrer"}
           </button>
         </footer>

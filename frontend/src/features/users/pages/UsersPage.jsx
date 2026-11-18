@@ -13,6 +13,7 @@ const FILTERS = [
   { value: "COMPTABLE", label: "Comptables", test: (u) => u.role === "COMPTABLE" },
   { value: "MAGASINIER", label: "Magasiniers", test: (u) => u.role === "MAGASINIER" },
   { value: "EMPLOYEE", label: "Employés", test: (u) => u.role === "EMPLOYEE" },
+  { value: "SUPPLIER", label: "Fournisseurs", test: (u) => u.role === "SUPPLIER" },
 ];
 
 export default function UsersPage() {
@@ -57,7 +58,7 @@ export default function UsersPage() {
   );
 
   const addButton = (
-    <button className="btn btn-dark" onClick={() => setEditing({})}>
+    <button className="btn btn-create" onClick={() => setEditing({})}>
       <Plus size={16} /> {isAdmin ? "Nouvel utilisateur" : "Nouvel employé"}
     </button>
   );

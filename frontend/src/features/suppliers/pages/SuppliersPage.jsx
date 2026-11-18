@@ -64,7 +64,7 @@ export default function SuppliersPage() {
           <p className="page-subtitle">Les entreprises auprès desquelles vous achetez.</p>
         </div>
         {canEdit && (
-          <button className="btn btn-dark" onClick={() => setEditing({})}>
+          <button className="btn btn-create" onClick={() => setEditing({})}>
             <Plus size={16} /> Ajouter un fournisseur
           </button>
         )}
@@ -91,7 +91,7 @@ export default function SuppliersPage() {
             <h3>Aucun fournisseur</h3>
             <p>Ajoutez votre premier fournisseur pour pouvoir créer des commandes.</p>
             {canEdit && (
-              <button className="btn btn-dark" onClick={() => setEditing({})}>
+              <button className="btn btn-create" onClick={() => setEditing({})}>
                 <Plus size={16} /> Ajouter un fournisseur
               </button>
             )}

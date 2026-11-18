@@ -181,7 +181,7 @@ export default function ReceptionDrawer({ onClose, onSaved }) {
 
         <footer className="drawer-footer">
           <button type="button" className="btn btn-outline" onClick={onClose}>Annuler</button>
-          <button type="submit" className="btn btn-dark" disabled={saving || !order}>
+          <button type="submit" className="btn btn-create" disabled={saving || !order}>
             {saving ? "Enregistrement…" : "Enregistrer la réception"}
           </button>
         </footer>

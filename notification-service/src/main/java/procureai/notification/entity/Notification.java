@@ -12,6 +12,7 @@ public class Notification {
         DEMANDE_CREATED,
         DEMANDE_APPROVED,
         DEMANDE_REJECTED,
+        INVOICE_CREATED,
         INVOICE_REJECTED,
         INVOICE_PAID,
         ORDER_SENT

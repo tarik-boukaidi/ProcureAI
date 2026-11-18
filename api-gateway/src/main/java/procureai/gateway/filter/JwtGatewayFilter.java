@@ -53,11 +53,14 @@ public class JwtGatewayFilter implements GlobalFilter, Ordered {
                     .parseClaimsJws(token)
                     .getBody();
 
-            ServerHttpRequest request = exchange.getRequest().mutate()
-                    .header("X-User-Id", String.valueOf(claims.get("id", Long.class)))
+            ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate()
+                    .header("X-User-Id", String.valueOf(claims.get("id")))
                     .header("X-User-Email", claims.getSubject())
-                    .header("X-User-Role", claims.get("role", String.class))
-                    .build();
+                    .header("X-User-Role", claims.get("role", String.class));
+            if (claims.get("supplierId") != null) {
+                requestBuilder.header("X-Supplier-Id", String.valueOf(claims.get("supplierId")));
+            }
+            ServerHttpRequest request = requestBuilder.build();
 
             return chain.filter(exchange.mutate().request(request).build());
 

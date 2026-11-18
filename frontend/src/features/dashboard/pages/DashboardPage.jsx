@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import AdminDashboard from "../components/AdminDashboard";
 import DemandesDashboard from "../components/DemandesDashboard";
 import { getCurrentUser } from "../../auth/services/authService";
@@ -6,6 +7,9 @@ import "./DashboardPage.css";
 
 export default function DashboardPage() {
   const user = getCurrentUser();
+  if (user.role === "SUPPLIER") {
+    return <Navigate to="/commandes" replace />;
+  }
   const today = new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
 
   return (

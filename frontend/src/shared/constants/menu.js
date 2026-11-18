@@ -12,13 +12,21 @@ import {
 } from "lucide-react";
 
 // Menu de la sidebar. "roles" : si present, seuls ces roles voient le groupe.
+const COMPANY = ["ADMIN", "MANAGER", "EMPLOYEE", "COMPTABLE", "MAGASINIER"];
+
 export const MENU = [
   {
+    roles: ["SUPPLIER"],
+    items: [{ label: "Mes commandes", path: "/commandes", icon: ShoppingCart }],
+  },
+  {
     title: null,
+    roles: COMPANY,
     items: [{ label: "Tableau de bord", path: "/dashboard", icon: LayoutDashboard }],
   },
   {
     title: "Achats",
+    roles: COMPANY,
     items: [
       { label: "Demandes", path: "/demandes", icon: Inbox },
       { label: "Commandes", path: "/commandes", icon: ShoppingCart },

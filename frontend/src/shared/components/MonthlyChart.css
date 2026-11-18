@@ -35,16 +35,16 @@
   width: 100%;
   min-height: 3px;
   border-radius: 4px 4px 0 0;
-  background: var(--paper-2);
+  background: #bce5cd;
   transition: background 0.15s;
 }
 
 .chart-column:hover .chart-bar {
-  background: var(--forest-2);
+  background: #91d3ad;
 }
 
 .chart-bar.current {
-  background: var(--forest);
+  background: #2e8055;
 }
 
 .chart-label {

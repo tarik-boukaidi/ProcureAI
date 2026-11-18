@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TriangleAlert, X } from "lucide-react";
 import { USER_ROLE } from "../../../shared/constants/status";
+import { getSuppliers } from "../../suppliers/services/supplierService";
 import { createUser, updateUser } from "../services/userService";
 
 // Code HTTP renvoye par auth-service -> message clair pour l'utilisateur
@@ -22,12 +23,29 @@ export default function UserDrawer({ user, roles, onClose, onSaved }) {
     phone: user.phone ?? "",
     address: user.address ?? "",
     password: "",
+    supplierId: user.supplierId ? String(user.supplierId) : "",
   });
+  const [suppliers, setSuppliers] = useState([]);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
+  useEffect(() => {
+    if (!roles.includes("SUPPLIER")) return;
+    getSuppliers().then(setSuppliers).catch(() => setSuppliers([]));
+  }, [roles]);
+
   function update(field, value) {
     setForm({ ...form, [field]: value });
+  }
+
+  function chooseSupplier(id) {
+    const supplier = suppliers.find((item) => String(item.id) === id);
+    setForm({
+      ...form,
+      supplierId: id,
+      name: supplier?.name || form.name,
+      email: supplier?.email || form.email,
+    });
   }
 
   async function handleSubmit(event) {
@@ -35,10 +53,19 @@ export default function UserDrawer({ user, roles, onClose, onSaved }) {
     setError("");
     setSaving(true);
     try {
+      const payload = {
+        ...form,
+        supplierId: form.role === "SUPPLIER" ? Number(form.supplierId) : null,
+      };
+      if (form.role === "SUPPLIER" && !form.supplierId) {
+        setError("Choisissez le fournisseur auquel ce compte est rattaché.");
+        setSaving(false);
+        return;
+      }
       if (isNew) {
-        await createUser(form);
+        await createUser(payload);
       } else {
-        await updateUser(user.id, form);
+        await updateUser(user.id, payload);
       }
       onSaved();
     } catch (err) {
@@ -100,6 +127,18 @@ export default function UserDrawer({ user, roles, onClose, onSaved }) {
             </label>
           </div>
 
+          {form.role === "SUPPLIER" && (
+            <label className="field">
+              <span>Fournisseur *</span>
+              <select value={form.supplierId} onChange={(e) => chooseSupplier(e.target.value)} required>
+                <option value="">Choisir la fiche fournisseur</option>
+                {suppliers.map((supplier) => (
+                  <option key={supplier.id} value={supplier.id}>{supplier.name}</option>
+                ))}
+              </select>
+            </label>
+          )}
+
           <label className="field">
             <span>{isNew ? "Mot de passe *" : "Nouveau mot de passe"}</span>
             <input
@@ -116,7 +155,7 @@ export default function UserDrawer({ user, roles, onClose, onSaved }) {
 
         <footer className="drawer-footer">
           <button type="button" className="btn btn-outline" onClick={onClose}>Annuler</button>
-          <button type="submit" className="btn btn-dark" disabled={saving}>
+          <button type="submit" className="btn btn-create" disabled={saving}>
             {saving ? "Enregistrement…" : isNew ? "Créer le compte" : "Enregistrer"}
           </button>
         </footer>

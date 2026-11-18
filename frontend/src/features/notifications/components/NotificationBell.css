@@ -71,5 +71,5 @@
 }
 
 .bell-footer:hover {
-  background: #fbfaf7;
+  background: var(--paper);
 }

@@ -60,7 +60,7 @@ export default function ReceptionsPage() {
           <p className="page-subtitle">Ce qui a été réellement livré, commande par commande.</p>
         </div>
         {canReceive && (
-          <button className="btn btn-dark" onClick={() => setCreating(true)}>
+          <button className="btn btn-create" onClick={() => setCreating(true)}>
             <Plus size={16} /> Nouvelle réception
           </button>
         )}

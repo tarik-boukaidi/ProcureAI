@@ -10,5 +10,6 @@ public record UserRequest(
         String password,
         String phone,
         String address,
-        Role role) {
+        Role role,
+        Long supplierId) {
 }

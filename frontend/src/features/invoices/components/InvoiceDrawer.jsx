@@ -278,7 +278,7 @@ export default function InvoiceDrawer({ onClose, onSaved }) {
 
         <footer className="drawer-footer">
           <button type="button" className="btn btn-outline" onClick={onClose}>Annuler</button>
-          <button type="submit" className="btn btn-dark" disabled={saving || reading || !order}>
+          <button type="submit" className="btn btn-create" disabled={saving || reading || !order}>
             {saving ? "Enregistrement…" : "Enregistrer la facture"}
           </button>
         </footer>

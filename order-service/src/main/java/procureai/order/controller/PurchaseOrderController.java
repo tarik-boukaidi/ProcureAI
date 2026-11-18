@@ -9,6 +9,7 @@ import procureai.order.dto.PurchaseOrderResponse;
 import procureai.order.entity.PurchaseOrder;
 import procureai.order.service.PurchaseService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -35,6 +36,22 @@ public class PurchaseOrderController {
     @GetMapping
     public List<PurchaseOrderResponse> getAllPurchaseOrders() {
         return service.getAllPurchaseOrders();
+    }
+
+    @GetMapping("/mine")
+    public List<PurchaseOrderResponse> getMyOrders(@RequestHeader("X-Supplier-Id") Long supplierId,
+                                                   @RequestHeader(value = "X-User-Role", required = false) String role) {
+        checkRole(role, "SUPPLIER");
+        return service.getPurchaseOrdersBySupplierId(supplierId);
+    }
+
+    @PutMapping("/{id}/confirm")
+    public PurchaseOrderResponse confirm(@PathVariable Long id,
+                                         @RequestParam(required = false) LocalDate expectedDeliveryDate,
+                                         @RequestHeader("X-Supplier-Id") Long supplierId,
+                                         @RequestHeader(value = "X-User-Role", required = false) String role) {
+        checkRole(role, "SUPPLIER");
+        return service.confirmOrder(id, supplierId, expectedDeliveryDate);
     }
 
     @GetMapping("/supplier/{supplierId}")

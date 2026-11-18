@@ -3,7 +3,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(245, 243, 238, 0.85);
+  background: rgba(244, 249, 255, 0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -105,8 +105,8 @@
 
 .app-sidebar {
   padding: 18px 12px;
-  background: #fafaf8;
-  border-right: 1px solid #eeebe4;
+  background: var(--paper);
+  border-right: 1px solid var(--line);
 }
 
 .app-company {
@@ -145,7 +145,7 @@
   background: var(--white);
   color: var(--ink);
   font-weight: 500;
-  box-shadow: 0 0 0 1px #eeebe4;
+  box-shadow: 0 0 0 1px var(--line);
 }
 
 .app-count {
@@ -178,7 +178,7 @@
   flex: 1;
   height: 32px;
   padding: 0 10px;
-  border: 1px solid #eeebe4;
+  border: 1px solid var(--line);
   border-radius: 6px;
   color: var(--ink-mute);
 }
@@ -198,7 +198,7 @@
   display: flex;
   gap: 18px;
   margin: 16px 0 4px;
-  border-bottom: 1px solid #eeebe4;
+  border-bottom: 1px solid var(--line);
   color: var(--ink-mute);
 }
 
@@ -229,12 +229,12 @@
   font-weight: 500;
   font-size: 11px;
   color: var(--ink-mute);
-  border-bottom: 1px solid #eeebe4;
+  border-bottom: 1px solid var(--line);
 }
 
 .app-table td {
   padding: 11px 8px;
-  border-bottom: 1px solid #f3f1ec;
+  border-bottom: 1px solid var(--line);
   white-space: nowrap;
 }
 
@@ -248,7 +248,7 @@
 
 .app-panel {
   padding: 18px;
-  border-left: 1px solid #eeebe4;
+  border-left: 1px solid var(--line);
 }
 
 .app-panel-label {
@@ -271,7 +271,7 @@
   display: flex;
   gap: 10px;
   padding: 10px 0;
-  border-bottom: 1px dashed #e8e4dc;
+  border-bottom: 1px dashed var(--line);
 }
 
 .match-list strong {
@@ -585,7 +585,7 @@
 
 .visual-journal td {
   padding: 12px 10px;
-  border-bottom: 1px solid #f3f1ec;
+  border-bottom: 1px solid var(--line);
 }
 
 .visual-journal .mono {

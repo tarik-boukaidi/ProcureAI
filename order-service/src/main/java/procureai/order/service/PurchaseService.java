@@ -4,6 +4,7 @@ import procureai.order.dto.PurchaseOrderRequest;
 import procureai.order.dto.PurchaseOrderResponse;
 import procureai.order.entity.PurchaseOrder;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,4 +17,6 @@ public interface PurchaseService {
     List<PurchaseOrderResponse> getPurchaseOrdersByPurchaseRequestId(Long purchaseRequestId);
     Optional<PurchaseOrderResponse> getPurchaseOrderByOrderNumber(String orderNumber);
     PurchaseOrderResponse changeStatus(Long id, PurchaseOrder.Status status);
+
+    PurchaseOrderResponse confirmOrder(Long id, Long supplierId, LocalDate expectedDeliveryDate);
 }

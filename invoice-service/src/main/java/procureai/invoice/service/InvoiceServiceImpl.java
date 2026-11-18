@@ -102,7 +102,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setVatAmount(vat);
         invoice.setTotalTtc(total.add(vat));
 
-        return InvoiceResponse.from(repository.save(invoice));
+        Invoice saved = repository.save(invoice);
+        notify(new NotificationRequest(null, "COMPTABLE", "INVOICE_CREATED",
+                "Facture " + saved.getInvoiceNumber() + " deposee pour la commande #" + saved.getPurchaseOrderId()));
+        return InvoiceResponse.from(saved);
     }
 
     @Override

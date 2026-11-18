@@ -21,12 +21,20 @@ public class InvoiceController {
         this.service = service;
     }
 
-    // Le comptable saisit la facture envoyee par le fournisseur
+    // Le comptable saisit une facture, ou le fournisseur depose la sienne pour une de ses commandes.
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public InvoiceResponse createInvoice(@Valid @RequestBody InvoiceRequest request,
-                                         @RequestHeader(value = "X-User-Role", required = false) String role) {
-        checkRole(role, "COMPTABLE");
+                                         @RequestHeader(value = "X-User-Role", required = false) String role,
+                                         @RequestHeader(value = "X-Supplier-Id", required = false) Long supplierId) {
+        checkRole(role, "COMPTABLE", "SUPPLIER");
+        if ("SUPPLIER".equals(role)) {
+            if (supplierId == null) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Supplier account is not linked to a supplier");
+            }
+            request = new InvoiceRequest(request.invoiceNumber(), request.purchaseOrderId(), supplierId,
+                    request.invoiceDate(), request.dueDate(), request.vatRate(), request.lines());
+        }
         return service.createInvoice(request);
     }
 

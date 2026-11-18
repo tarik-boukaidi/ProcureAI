@@ -44,7 +44,7 @@ export function getCurrentUser() {
       logout();
       return null;
     }
-    return { id: payload.id, email: payload.sub, role: payload.role };
+    return { id: payload.id, email: payload.sub, role: payload.role, supplierId: payload.supplierId ?? null };
   } catch {
     logout();
     return null;

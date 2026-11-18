@@ -9,7 +9,7 @@
   width: 100%;
   padding: 14px 12px;
   border: none;
-  border-bottom: 1px solid #f1eee8;
+  border-bottom: 1px solid var(--line);
   background: transparent;
   color: var(--ink-soft);
   font: inherit;
@@ -19,7 +19,7 @@
 }
 
 .notification:hover {
-  background: #fbfaf7;
+  background: var(--paper);
 }
 
 .notification.unread {

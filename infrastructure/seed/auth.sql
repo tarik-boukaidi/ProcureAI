@@ -1,7 +1,7 @@
 -- Hibernate (ddl-auto=update) ne met pas a jour la contrainte sur role :
 -- une base creee avant l'ajout d'un role doit etre corrigee une fois.
 ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check;
-ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('ADMIN', 'MANAGER', 'EMPLOYEE', 'COMPTABLE', 'MAGASINIER'));
+ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('ADMIN', 'MANAGER', 'EMPLOYEE', 'COMPTABLE', 'MAGASINIER', 'SUPPLIER'));
 
 -- Comptes de test en plus de tarik@company.com (ADMIN, cree par DataSeeder).
 -- Mots de passe : sara123, karim123, hamid123 et amina123 (hash BCrypt, comme BCryptPasswordEncoder).

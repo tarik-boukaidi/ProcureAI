@@ -2,16 +2,18 @@ import { useState } from "react";
 import { TriangleAlert } from "lucide-react";
 import DetailDrawer from "../../../shared/components/DetailDrawer";
 import ConfirmDialog from "../../../shared/components/ConfirmDialog";
-import { canCancelOrder, changeOrderStatus, ORDER_ACTIONS } from "../services/orderService";
+import { canCancelOrder, changeOrderStatus, confirmOrder, ORDER_ACTIONS } from "../services/orderService";
+import SupplierInvoiceForm from "./SupplierInvoiceForm";
 import { ORDER_STATUS, statusOf } from "../../../shared/constants/status";
 import { formatFullDate, formatMoney } from "../../../shared/utils/format";
 
 // canEdit : l'admin fait avancer la commande (envoi, confirmation, livraison, annulation)
-export default function OrderDetail({ order, canEdit, onClose, onChanged }) {
+export default function OrderDetail({ order, canEdit, isSupplier, onClose, onChanged }) {
   const status = statusOf(ORDER_STATUS, order.status);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [confirmCancel, setConfirmCancel] = useState(false);
+  const [deliveryDate, setDeliveryDate] = useState(order.expectedDeliveryDate ?? "");
 
   const actions = canEdit ? ORDER_ACTIONS[order.status] ?? [] : [];
   const cancellable = canEdit && canCancelOrder(order);
@@ -30,11 +32,32 @@ export default function OrderDetail({ order, canEdit, onClose, onChanged }) {
     }
   }
 
-  const footer = (actions.length > 0 || cancellable) && (
+  async function handleConfirm() {
+    setBusy(true);
+    setError("");
+    try {
+      onChanged(await confirmOrder(order.id, deliveryDate || null));
+    } catch (err) {
+      setError(err.status === 409
+        ? "Cette commande n'est plus à confirmer."
+        : "Confirmation impossible. Réessayez dans un instant.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const supplierCanConfirm = isSupplier && order.status === "SENT";
+
+  const footer = (actions.length > 0 || cancellable || supplierCanConfirm) && (
     <>
       {cancellable && (
         <button className="btn btn-outline" onClick={() => setConfirmCancel(true)} disabled={busy}>
           Annuler la commande
+        </button>
+      )}
+      {supplierCanConfirm && (
+        <button className="btn btn-dark" onClick={handleConfirm} disabled={busy}>
+          Confirmer la commande
         </button>
       )}
       {actions.map((action, index) => (
@@ -99,7 +122,16 @@ export default function OrderDetail({ order, canEdit, onClose, onChanged }) {
         <p className="drawer-hint">Une fois envoyée, le magasinier est prévenu qu'une livraison arrive.</p>
       )}
       {canEdit && order.status === "SENT" && (
-        <p className="drawer-hint">Confirmer : le fournisseur a accepté la commande.</p>
+        <p className="drawer-hint">Un e-mail a été envoyé au fournisseur. Confirmer : il a accepté la commande.</p>
+      )}
+      {supplierCanConfirm && (
+        <label className="field">
+          <span>Date de livraison que vous pouvez tenir</span>
+          <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} />
+        </label>
+      )}
+      {isSupplier && ["SENT", "CONFIRMED", "DELIVERED"].includes(order.status) && (
+        <SupplierInvoiceForm order={order} />
       )}
 
       {confirmCancel && (

@@ -193,6 +193,30 @@ class InvoiceControllerTests {
     }
 
     @Test
+    void supplierCreatesInvoiceForOwnOrderAndNotifiesComptable() throws Exception {
+        orderIs("SENT", 7L);
+        String body = INVOICE_BODY.replace("FAC-2026-001", "FAC-SUP-1").replace("\"supplierId\": 7", "\"supplierId\": 99");
+
+        mockMvc.perform(post("/api/invoices")
+                        .header("X-User-Role", "SUPPLIER")
+                        .header("X-Supplier-Id", "7")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.supplierId").value(7))
+                .andExpect(jsonPath("$.status").value("RECEIVED"));
+
+        mockMvc.perform(post("/api/invoices")
+                        .header("X-User-Role", "SUPPLIER")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(INVOICE_BODY.replace("FAC-2026-001", "FAC-SUP-2")))
+                .andExpect(status().isForbidden());
+
+        verify(notificationPublisher).send(new NotificationRequest(null, "COMPTABLE", "INVOICE_CREATED",
+                "Facture FAC-SUP-1 deposee pour la commande #1"));
+    }
+
+    @Test
     void onlyComptableCreatesInvoices() throws Exception {
         orderIs("CONFIRMED", 7L);
 

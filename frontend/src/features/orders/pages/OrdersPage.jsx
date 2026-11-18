@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Search, ShoppingCart } from "lucide-react";
+import { Plus, Search, ShoppingCart } from "lucide-react";
 import OrderDetail from "../components/OrderDetail";
+import OrderDrawer from "../components/OrderDrawer";
 import StatusFilter, { applyFilter } from "../../../shared/components/StatusFilter";
-import { loadOrders } from "../services/orderService";
+import { getMyOrders, loadOrders } from "../services/orderService";
+import { getSupplier } from "../../suppliers/services/supplierService";
 import { getCurrentUser } from "../../auth/services/authService";
 import { ORDER_STATUS, statusOf } from "../../../shared/constants/status";
 import { formatDate, formatMoney } from "../../../shared/utils/format";
@@ -16,17 +18,35 @@ const FILTERS = [
 ];
 
 export default function OrdersPage() {
-  const canEdit = getCurrentUser().role === "ADMIN";
+  const user = getCurrentUser();
+  const canEdit = user.role === "ADMIN";
+  const isSupplier = user.role === "SUPPLIER";
   const [orders, setOrders] = useState(null);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("ALL");
   const [selected, setSelected] = useState(null);
+  const [creating, setCreating] = useState(false);
+
+  function refresh() {
+    const ordersPromise = isSupplier
+      ? getMyOrders().then(async (orders) => {
+          let name = "Votre entreprise";
+          if (user.supplierId) {
+            try {
+              name = (await getSupplier(user.supplierId)).name;
+            } catch {
+              // Le nom reste un libelle generique si la fiche est inaccessible
+            }
+          }
+          return orders.map((order) => ({ ...order, supplierName: name }));
+        })
+      : loadOrders();
+    ordersPromise.then(setOrders).catch((err) => setError(err.message));
+  }
 
   useEffect(() => {
-    loadOrders()
-      .then(setOrders)
-      .catch((err) => setError(err.message));
+    refresh();
   }, []);
 
   // order-service renvoie la commande sans le nom du fournisseur : on garde celui deja charge
@@ -47,9 +67,16 @@ export default function OrdersPage() {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Commandes</h1>
-          <p className="page-subtitle">Les bons de commande envoyés aux fournisseurs.</p>
+          <h1 className="page-title">{isSupplier ? "Mes commandes" : "Commandes"}</h1>
+          <p className="page-subtitle">
+            {isSupplier ? "Confirmez les commandes qui vous sont envoyées, puis déposez la facture." : "Les bons de commande envoyés aux fournisseurs."}
+          </p>
         </div>
+        {canEdit && (
+          <button className="btn btn-create" onClick={() => setCreating(true)}>
+            <Plus size={16} /> Nouvelle commande
+          </button>
+        )}
       </div>
 
       <div className="card table-card">
@@ -65,7 +92,12 @@ export default function OrdersPage() {
           <div className="empty-state">
             <ShoppingCart size={28} strokeWidth={1.5} />
             <h3>Aucune commande</h3>
-            <p>Une commande est créée à partir d'une demande d'achat approuvée.</p>
+            <p>{isSupplier ? "Aucune commande ne vous a encore été envoyée." : "Une commande est créée à partir d'une demande d'achat approuvée."}</p>
+            {canEdit && (
+              <button className="btn btn-create" onClick={() => setCreating(true)}>
+                <Plus size={16} /> Nouvelle commande
+              </button>
+            )}
           </div>
         ) : visible.length === 0 ? (
           <p className="empty">Aucune commande ne correspond à votre recherche.</p>
@@ -103,7 +135,17 @@ export default function OrdersPage() {
       </div>
 
       {selected && (
-        <OrderDetail order={selected} canEdit={canEdit} onClose={() => setSelected(null)} onChanged={handleChanged} />
+        <OrderDetail order={selected} canEdit={canEdit} isSupplier={isSupplier} onClose={() => setSelected(null)} onChanged={handleChanged} />
+      )}
+
+      {creating && (
+        <OrderDrawer
+          onClose={() => setCreating(false)}
+          onSaved={() => {
+            setCreating(false);
+            refresh();
+          }}
+        />
       )}
     </div>
   );

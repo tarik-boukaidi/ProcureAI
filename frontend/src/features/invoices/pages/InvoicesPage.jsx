@@ -84,7 +84,7 @@ export default function InvoicesPage() {
           </p>
         </div>
         {canMatch && (
-          <button className="btn btn-dark" onClick={() => setCreating(true)}>
+          <button className="btn btn-create" onClick={() => setCreating(true)}>
             <Plus size={16} /> Nouvelle facture
           </button>
         )}

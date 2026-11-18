@@ -148,7 +148,7 @@ class UserServiceTests {
     }
 
     private static UserRequest newUser(Role role, String password) {
-        return new UserRequest("Nouveau", "new@company.com", password, null, null, role);
+        return new UserRequest("Nouveau", "new@company.com", password, null, null, role, null);
     }
 
     private static void assertStatus(HttpStatus status, Runnable action) {

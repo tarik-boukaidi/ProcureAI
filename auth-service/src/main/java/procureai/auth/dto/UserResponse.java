@@ -10,10 +10,11 @@ public record UserResponse(
         String email,
         String phone,
         String address,
-        Role role) {
+        Role role,
+        Long supplierId) {
 
     public static UserResponse from(User user) {
         return new UserResponse(user.getId(), user.getName(), user.getEmail(),
-                user.getPhone(), user.getAddress(), user.getRole());
+                user.getPhone(), user.getAddress(), user.getRole(), user.getSupplierId());
     }
 }

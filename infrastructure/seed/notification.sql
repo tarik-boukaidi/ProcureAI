@@ -2,7 +2,7 @@
 -- une base creee avant l'ajout d'un type doit etre corrigee une fois.
 ALTER TABLE notifications DROP CONSTRAINT IF EXISTS notifications_type_check;
 ALTER TABLE notifications ADD CONSTRAINT notifications_type_check CHECK (type IN (
-  'DEMANDE_CREATED', 'DEMANDE_APPROVED', 'DEMANDE_REJECTED', 'INVOICE_REJECTED', 'INVOICE_PAID', 'ORDER_SENT'));
+  'DEMANDE_CREATED', 'DEMANDE_APPROVED', 'DEMANDE_REJECTED', 'INVOICE_CREATED', 'INVOICE_REJECTED', 'INVOICE_PAID', 'ORDER_SENT'));
 
 TRUNCATE notifications RESTART IDENTITY CASCADE;
 

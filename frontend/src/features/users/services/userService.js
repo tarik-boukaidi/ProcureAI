@@ -2,7 +2,7 @@ import { apiDelete, apiGet, apiPost, apiPut } from "../../../api/client";
 
 // Roles que l'utilisateur connecte peut gerer (meme regle que auth-service)
 export function manageableRoles(role) {
-  if (role === "ADMIN") return ["MANAGER", "COMPTABLE", "MAGASINIER", "EMPLOYEE"];
+  if (role === "ADMIN") return ["MANAGER", "COMPTABLE", "MAGASINIER", "EMPLOYEE", "SUPPLIER"];
   if (role === "MANAGER") return ["EMPLOYEE"];
   return [];
 }

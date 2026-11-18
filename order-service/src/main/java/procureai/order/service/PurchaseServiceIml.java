@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import procureai.order.client.ProcurementClient;
 import procureai.order.client.PurchaseRequestResponse;
+import procureai.order.client.SupplierClient;
+import procureai.order.client.SupplierInfo;
 import procureai.order.dto.PurchaseOrderRequest;
 import procureai.order.dto.PurchaseOrderResponse;
 import procureai.order.entity.PurchaseOrder;
@@ -19,6 +21,7 @@ import procureai.order.messaging.NotificationRequest;
 import procureai.order.repository.PurchaseOrderRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -43,13 +46,18 @@ public class PurchaseServiceIml implements PurchaseService {
 
     private final PurchaseOrderRepository repository;
     private final ProcurementClient procurementClient;
+    private final SupplierClient supplierClient;
     private final NotificationPublisher notificationPublisher;
+    private final OrderMailService orderMailService;
 
     public PurchaseServiceIml(PurchaseOrderRepository repository, ProcurementClient procurementClient,
-                              NotificationPublisher notificationPublisher) {
+                              SupplierClient supplierClient, NotificationPublisher notificationPublisher,
+                              OrderMailService orderMailService) {
         this.repository = repository;
         this.procurementClient = procurementClient;
+        this.supplierClient = supplierClient;
         this.notificationPublisher = notificationPublisher;
+        this.orderMailService = orderMailService;
     }
 
     @Override
@@ -144,8 +152,34 @@ public class PurchaseServiceIml implements PurchaseService {
                 message += " le " + order.getExpectedDeliveryDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             }
             notify(new NotificationRequest(null, "MAGASINIER", "ORDER_SENT", message));
+            notifySupplier(saved);
         }
         return PurchaseOrderResponse.from(saved);
+    }
+
+    @Override
+    public PurchaseOrderResponse confirmOrder(Long id, Long supplierId, LocalDate expectedDeliveryDate) {
+        PurchaseOrder order = findOrder(id);
+        if (!order.getSupplierId().equals(supplierId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "This order belongs to another supplier");
+        }
+        if (order.getStatus() != Status.SENT) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Only a sent order can be confirmed");
+        }
+        if (expectedDeliveryDate != null) {
+            order.setExpectedDeliveryDate(expectedDeliveryDate);
+        }
+        order.setStatus(Status.CONFIRMED);
+        return PurchaseOrderResponse.from(repository.save(order));
+    }
+
+    private void notifySupplier(PurchaseOrder order) {
+        try {
+            SupplierInfo supplier = supplierClient.getSupplier(order.getSupplierId());
+            orderMailService.sendOrder(supplier.email(), supplier.name(), order);
+        } catch (Exception e) {
+            log.warn("Supplier email skipped for order {}: {}", order.getOrderNumber(), e.getMessage());
+        }
     }
 
     private PurchaseOrder findOrder(Long id) {

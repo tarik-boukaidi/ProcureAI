@@ -4,6 +4,14 @@ export function getSuppliers() {
   return apiGet("/api/suppliers");
 }
 
+export function getSupplier(id) {
+  return apiGet(`/api/suppliers/${id}`);
+}
+
+export function getProducts(supplierId) {
+  return apiGet(`/api/suppliers/${supplierId}/products`);
+}
+
 // { 3: "Atlas Informatique", ... } pour afficher le nom a partir de supplierId
 export async function getSupplierNames() {
   const suppliers = await getSuppliers();

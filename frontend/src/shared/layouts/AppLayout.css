@@ -12,7 +12,7 @@
   flex-direction: column;
   height: 100vh;
   padding: 20px 14px;
-  background: var(--white);
+  background: linear-gradient(180deg, #f4f9ff 0%, #f4f9ff 100%);
   border-right: 1px solid var(--line);
 }
 
@@ -57,8 +57,8 @@
 
 /* NavLink ajoute la classe "active" sur la page courante */
 .sidebar-link.active {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--blue-soft);
+  color: var(--blue-text);
   font-weight: 500;
   box-shadow: inset 2px 0 0 var(--saffron);
 }
@@ -92,7 +92,7 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: var(--forest);
+  background: var(--saffron);
   color: var(--white);
   font-size: 14px;
   font-weight: 600;
@@ -128,7 +128,7 @@
   height: 64px;
   padding: 0 32px;
   border-bottom: 1px solid var(--line);
-  background: var(--paper);
+  background: #f7fbff;
 }
 
 .topbar-title {
@@ -238,11 +238,11 @@
 
 .table td {
   padding: 13px 12px;
-  border-bottom: 1px solid #f1eee8;
+  border-bottom: 1px solid var(--line);
 }
 
 .table tbody tr:hover td {
-  background: #fbfaf7;
+  background: var(--paper);
 }
 
 .table .right {

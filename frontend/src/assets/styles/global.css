@@ -1,23 +1,23 @@
 :root {
-  --paper: #f5f3ee;
-  --paper-2: #ece8df;
+  --paper: #f4f9ff;
+  --paper-2: #e0edfa;
   --white: #ffffff;
-  --ink: #16181d;
-  --ink-soft: #4a4f57;
-  --ink-mute: #8a8f98;
-  --line: #e3dfd6;
-  --forest: #0e3b2e;
-  --forest-2: #164c3c;
-  --saffron: #f0612e;
-  --saffron-dark: #d84f1f;
-  --green-soft: #dcefe2;
-  --green-text: #1d6b45;
+  --ink: #172e50;
+  --ink-soft: #526b88;
+  --ink-mute: #6b819b;
+  --line: #dce8f3;
+  --forest: #25866b;
+  --forest-2: #a4dfc7;
+  --saffron: #2878cf;
+  --saffron-dark: #1f62ad;
+  --green-soft: #e0f5ea;
+  --green-text: #247456;
   --amber-soft: #fcebd5;
   --amber-text: #9a5a12;
   --red-soft: #fbe1dc;
   --red-text: #b3351f;
-  --blue-soft: #dfe8f6;
-  --blue-text: #2c5395;
+  --blue-soft: #dfedff;
+  --blue-text: #2467b5;
 
   --font-sans: "Geist", system-ui, sans-serif;
   --font-serif: "Instrument Serif", Georgia, serif;
@@ -79,12 +79,21 @@ button {
 }
 
 .btn-dark {
-  background: var(--ink);
+  background: var(--saffron);
   color: var(--white);
 }
 
 .btn-dark:hover {
-  background: #2a2d34;
+  background: var(--saffron-dark);
+}
+
+.btn-create {
+  background: #2e8055;
+  color: var(--white);
+}
+
+.btn-create:hover {
+  background: #246743;
 }
 
 .btn-accent {
@@ -178,7 +187,7 @@ button {
 .tag-amber { background: var(--amber-soft); color: var(--amber-text); }
 .tag-green { background: var(--green-soft); color: var(--green-text); }
 .tag-red   { background: var(--red-soft);   color: var(--red-text); }
-.tag-ink   { background: #efede8;           color: var(--ink-soft); }
+.tag-ink   { background: var(--paper-2);   color: var(--ink-soft); }
 .tag-blue  { background: var(--blue-soft);  color: var(--blue-text); }
 
 /* ---------- Titres de section ---------- */

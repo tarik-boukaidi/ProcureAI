@@ -50,6 +50,7 @@ public class AuthServiceIml implements AuthService {
                 .filter(u -> passwordEncoder.matches(request.password(), u.getPassword()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password"));
 
-        return new LoginResponse(jwtService.generateToken(user.getEmail(), user.getRole().name(), user.getId()));
+        return new LoginResponse(jwtService.generateToken(
+                user.getEmail(), user.getRole().name(), user.getId(), user.getSupplierId()));
     }
 }

@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
         user.setPhone(request.phone());
         user.setAddress(request.address());
         user.setRole(request.role());
+        user.setSupplierId(supplierId(request));
         user.setPassword(passwordEncoder.encode(request.password()));
         return UserResponse.from(repository.save(user));
     }
@@ -84,6 +85,7 @@ public class UserServiceImpl implements UserService {
         existing.setPhone(request.phone());
         existing.setAddress(request.address());
         existing.setRole(request.role());
+        existing.setSupplierId(supplierId(request));
 
         // Mot de passe vide = on garde l'ancien
         if (request.password() != null && !request.password().isBlank()) {
@@ -124,6 +126,13 @@ public class UserServiceImpl implements UserService {
         if (isBlank(request.name()) || isBlank(request.email()) || !request.email().contains("@")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name and a valid email are required");
         }
+        if (request.role() == Role.SUPPLIER && request.supplierId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A supplier account must be linked to a supplier");
+        }
+    }
+
+    private Long supplierId(UserRequest request) {
+        return request.role() == Role.SUPPLIER ? request.supplierId() : null;
     }
 
     private boolean isValidPassword(String password) {

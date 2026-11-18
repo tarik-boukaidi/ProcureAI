@@ -104,7 +104,7 @@ export default function DemandesPage() {
             {canDecide ? "Approuvez ou rejetez les besoins d'achat de l'équipe." : "Vos besoins d'achat et leur validation."}
           </p>
         </div>
-        <button className="btn btn-dark" onClick={() => setCreating(true)}>
+        <button className="btn btn-create" onClick={() => setCreating(true)}>
           <Plus size={16} /> Nouvelle demande
         </button>
       </div>
@@ -135,7 +135,7 @@ export default function DemandesPage() {
             <FileText size={28} strokeWidth={1.5} />
             <h3>Aucune demande</h3>
             <p>Une demande d'achat est le point de départ : une fois approuvée, elle devient une commande.</p>
-            <button className="btn btn-dark" onClick={() => setCreating(true)}>
+            <button className="btn btn-create" onClick={() => setCreating(true)}>
               <Plus size={16} /> Nouvelle demande
             </button>
           </div>

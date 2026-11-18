@@ -26,14 +26,19 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    // Compte d'un fournisseur : il ne voit que les commandes de cette fiche
+    private Long supplierId;
+
     // COMPTABLE : factures, rapprochement, paiements (l'admin ne fait que consulter)
     // MAGASINIER : recoit les livraisons et enregistre les receptions
+    // SUPPLIER : portail du fournisseur, lie a supplierId
     public enum Role {
         ADMIN,
         MANAGER,
         EMPLOYEE,
         COMPTABLE,
-        MAGASINIER
+        MAGASINIER,
+        SUPPLIER
     }
 
     public User() {
@@ -95,5 +100,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
     }
 }
